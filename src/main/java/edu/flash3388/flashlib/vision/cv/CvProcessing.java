@@ -4,6 +4,8 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Range;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
 
 public class CvProcessing {
 
@@ -13,5 +15,9 @@ public class CvProcessing {
                 new Scalar(range1.start, range2.start, range3.start),
                 new Scalar(range1.end, range2.end, range3.end),
                 result.getMat());
+    }
+
+    public void resize(Mat img, double scaleFactor){
+        Imgproc.resize(img, img, new Size(0,0), scaleFactor, scaleFactor, Imgproc.INTER_CUBIC);
     }
 }

@@ -1,4 +1,4 @@
-package edu.flash3388.flashlib.vision.cv.color;
+package edu.flash3388.flashlib.vision.cv.processing.color;
 
 import com.beans.Property;
 import edu.flash3388.flashlib.vision.cv.CvImage;
