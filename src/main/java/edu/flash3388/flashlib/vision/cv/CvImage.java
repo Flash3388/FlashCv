@@ -56,7 +56,7 @@ public class CvImage implements Image {
     }
 
     @Override
-    public JpegImage toJpeg() {
+    public Image toJpeg() {
         try {
             byte[] rawData = getRaw();
             return JpegImage.fromBytes(rawData);

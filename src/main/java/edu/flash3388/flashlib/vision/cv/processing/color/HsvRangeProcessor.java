@@ -4,7 +4,8 @@ import com.beans.Property;
 import edu.flash3388.flashlib.vision.cv.CvImage;
 import edu.flash3388.flashlib.vision.cv.CvImageProcessor;
 import edu.flash3388.flashlib.vision.cv.CvProcessing;
-import edu.flash3388.flashlib.vision.processing.ImageProcessingException;
+import edu.flash3388.flashlib.vision.processing.exceptions.ImageProcessingException;
+
 import org.opencv.core.Range;
 
 public class HsvRangeProcessor implements CvImageProcessor {
