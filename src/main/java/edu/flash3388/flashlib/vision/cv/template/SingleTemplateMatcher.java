@@ -32,7 +32,7 @@ public class SingleTemplateMatcher implements TemplateMatcher {
     }
 
     @Override
-    public ScaledTemplateMatchingResult match(Mat scene, double initialScaleFactor) throws TemplateMatchingException {
+    public ScaledTemplateMatchingResult matchWithScaling(Mat scene, double initialScaleFactor) throws TemplateMatchingException {
         int templateWidth = mTemplate.width();
         int templateHeight = mTemplate.height();
 

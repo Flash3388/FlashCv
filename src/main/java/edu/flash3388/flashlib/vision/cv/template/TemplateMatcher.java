@@ -5,5 +5,5 @@ import org.opencv.core.Mat;
 public interface TemplateMatcher {
 
     TemplateMatchingResult match(Mat scene) throws TemplateMatchingException;
-    ScaledTemplateMatchingResult match(Mat scene, double initialScaleFactor) throws TemplateMatchingException;
+    ScaledTemplateMatchingResult matchWithScaling(Mat scene, double initialScaleFactor) throws TemplateMatchingException;
 }

@@ -27,7 +27,7 @@ public class TemplateMatchingImageAnalyser implements ImageAnalyser<CvImage> {
     @Override
     public Analysis analyse(CvImage image) throws ImageAnalysingException {
         try {
-            ScaledTemplateMatchingResult templateMatchingResult = mTemplateMatcher.match(image.getMat(), mScaleFactor.getAsDouble());
+            ScaledTemplateMatchingResult templateMatchingResult = mTemplateMatcher.matchWithScaling(image.getMat(), mScaleFactor.getAsDouble());
             return createAnalysisFromMatchingResult(templateMatchingResult);
         } catch (TemplateMatchingException e) {
             throw new ImageAnalysingException(e);

@@ -13,6 +13,8 @@ import java.util.concurrent.Future;
 import java.util.function.Function;
 
 public class MultipleTemplateMatcher implements TemplateMatcher {
+    // TODO: CONSIDER USING A GLOBAL EXECUTOR INSTEAD OF CREATING ONE EACH RUN
+    // TODO: CONSIDER USING A FORK-JOIN POOL TO SEPARATE WORK FROM matchWithScaling TASKS
 
     private final List<Mat> mTemplates;
     private final TemplateMatchingMethod mTemplateMatchingMethod;
@@ -37,7 +39,7 @@ public class MultipleTemplateMatcher implements TemplateMatcher {
     }
 
     @Override
-    public ScaledTemplateMatchingResult match(Mat scene, double initialScaleFactor) throws TemplateMatchingException {
+    public ScaledTemplateMatchingResult matchWithScaling(Mat scene, double initialScaleFactor) throws TemplateMatchingException {
         try {
             return runMatchOnTemplates((template) ->
                     new ScaledTemplateMatchingTask(
@@ -118,7 +120,7 @@ public class MultipleTemplateMatcher implements TemplateMatcher {
 
         @Override
         public ScaledTemplateMatchingResult call() throws Exception {
-            return mTemplateMatcher.match(mScene, mInitialScaleFactor);
+            return mTemplateMatcher.matchWithScaling(mScene, mInitialScaleFactor);
         }
     }
 }
