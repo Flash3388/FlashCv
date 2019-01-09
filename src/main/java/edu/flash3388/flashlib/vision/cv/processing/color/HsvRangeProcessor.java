@@ -36,12 +36,12 @@ public class HsvRangeProcessor implements CvImageProcessor {
     }
 
     @Override
-    public CvImage process(CvImage cvImage) throws ImageProcessingException {
+    public CvImage process(CvImage cvImage) {
         Range hue = mHueRange.get();
         Range saturation = mSaturationRange.get();
         Range value = mValueRange.get();
 
-        mCvProcessing.filterMatColors(cvImage, cvImage, hue, saturation, value);
+        mCvProcessing.filterMatColors(cvImage.getMat(), cvImage.getMat(), hue, saturation, value);
 
         return cvImage;
     }
