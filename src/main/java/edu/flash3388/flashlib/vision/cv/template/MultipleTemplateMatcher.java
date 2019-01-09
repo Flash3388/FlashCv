@@ -11,8 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.function.Function;
 
-public class MultipleTemplateMatcher implements TemplateMatcher
-    // TODO: CONSIDER USING A GLOBAL EXECUTOR INSTEAD OF CREATING ONE EACH RUN
+public class MultipleTemplateMatcher implements TemplateMatcher {
     // TODO: CONSIDER USING A FORK-JOIN POOL TO SEPARATE WORK FROM matchWithScaling TASKS
 
     private final List<Mat> mTemplates;
