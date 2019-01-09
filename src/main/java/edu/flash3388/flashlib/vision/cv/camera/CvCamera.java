@@ -6,7 +6,13 @@ import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 import org.opencv.videoio.Videoio;
 
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class CvCamera implements Camera<CvImage> {
+
+    private static final Logger LOGGER = Logger.getLogger(CvCamera.class.getName());
 
     private final VideoCapture mVideoCapture;
 
@@ -30,10 +36,22 @@ public class CvCamera implements Camera<CvImage> {
     }
 
     @Override
-    public CvImage capture() {
+    public Optional<CvImage> capture() {
         Mat mat = new Mat();
-        mVideoCapture.read(mat);
+        if (!mVideoCapture.read(mat)) {
+            LOGGER.log(Level.WARNING, "failed to read from image capture");
 
-        return new CvImage(mat);
+            mat.release();
+            return Optional.empty();
+        }
+
+        if (mat.empty()) {
+            LOGGER.log(Level.WARNING, "read mat is empty");
+
+            mat.release();
+            return Optional.empty();
+        }
+
+        return Optional.of(new CvImage(mat));
     }
 }
