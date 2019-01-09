@@ -2,17 +2,12 @@ package edu.flash3388.flashlib.vision.cv.camera;
 
 import edu.flash3388.flashlib.vision.camera.Camera;
 import edu.flash3388.flashlib.vision.cv.CvImage;
+import edu.flash3388.flashlib.vision.exceptions.VisionException;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 import org.opencv.videoio.Videoio;
 
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class CvCamera implements Camera<CvImage> {
-
-    private static final Logger LOGGER = Logger.getLogger(CvCamera.class.getName());
 
     private final VideoCapture mVideoCapture;
 
@@ -36,22 +31,18 @@ public class CvCamera implements Camera<CvImage> {
     }
 
     @Override
-    public Optional<CvImage> capture() {
+    public CvImage capture() throws VisionException {
         Mat mat = new Mat();
         if (!mVideoCapture.read(mat)) {
-            LOGGER.log(Level.WARNING, "failed to read from image capture");
-
             mat.release();
-            return Optional.empty();
+            throw new VisionException("failed to read");
         }
 
         if (mat.empty()) {
-            LOGGER.log(Level.WARNING, "read mat is empty");
-
             mat.release();
-            return Optional.empty();
+            throw new VisionException("image is empty");
         }
 
-        return Optional.of(new CvImage(mat));
+        return new CvImage(mat);
     }
 }

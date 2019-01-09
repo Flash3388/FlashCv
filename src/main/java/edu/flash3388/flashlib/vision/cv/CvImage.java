@@ -1,19 +1,12 @@
 package edu.flash3388.flashlib.vision.cv;
 
 import edu.flash3388.flashlib.vision.Image;
-import edu.flash3388.flashlib.vision.jpeg.JpegImage;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfInt;
 import org.opencv.imgcodecs.Imgcodecs;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class CvImage implements Image {
-
-    private static final Logger LOGGER = Logger.getLogger(CvImage.class.getName());
 
     private final Mat mMat;
 
@@ -52,17 +45,6 @@ public class CvImage implements Image {
             return imageArr;
         } finally {
             compressParams.release();
-        }
-    }
-
-    @Override
-    public Image toJpeg() {
-        try {
-            byte[] rawData = getRaw();
-            return JpegImage.fromBytes(rawData);
-        } catch (IOException e) {
-            LOGGER.log(Level.WARNING, "error exporting to jpeg", e);
-            return JpegImage.rgb(getHeight(), getWidth());
         }
     }
 }
