@@ -2,7 +2,8 @@ package edu.flash3388.flashlib.vision.cv.camera;
 
 import edu.flash3388.flashlib.vision.camera.Camera;
 import edu.flash3388.flashlib.vision.cv.CvImage;
-import edu.flash3388.flashlib.vision.exceptions.VisionException;
+import edu.flash3388.flashlib.vision.VisionException;
+
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 import org.opencv.videoio.Videoio;

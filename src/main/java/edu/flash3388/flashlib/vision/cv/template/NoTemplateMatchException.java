@@ -1,4 +1,4 @@
-package edu.flash3388.flashlib.vision.cv.template.exceptions;
+package edu.flash3388.flashlib.vision.cv.template;
 
 public class NoTemplateMatchException extends TemplateMatchingException {
 

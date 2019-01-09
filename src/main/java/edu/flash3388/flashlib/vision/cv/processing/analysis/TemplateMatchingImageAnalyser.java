@@ -4,10 +4,10 @@ import com.beans.DoubleProperty;
 import edu.flash3388.flashlib.vision.cv.CvImage;
 import edu.flash3388.flashlib.vision.cv.template.ScaledTemplateMatchingResult;
 import edu.flash3388.flashlib.vision.cv.template.SingleTemplateMatcher;
-import edu.flash3388.flashlib.vision.cv.template.exceptions.TemplateMatchingException;
+import edu.flash3388.flashlib.vision.cv.template.TemplateMatchingException;
 import edu.flash3388.flashlib.vision.processing.analysis.Analysis;
 import edu.flash3388.flashlib.vision.processing.analysis.ImageAnalyser;
-import edu.flash3388.flashlib.vision.processing.analysis.exceptions.ImageAnalysingException;
+import edu.flash3388.flashlib.vision.processing.analysis.ImageAnalysingException;
 import org.json.JSONObject;
 
 public class TemplateMatchingImageAnalyser implements ImageAnalyser<CvImage> {

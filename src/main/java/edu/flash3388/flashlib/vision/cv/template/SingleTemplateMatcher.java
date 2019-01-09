@@ -1,7 +1,6 @@
 package edu.flash3388.flashlib.vision.cv.template;
 
 import edu.flash3388.flashlib.vision.cv.CvProcessing;
-import edu.flash3388.flashlib.vision.cv.template.exceptions.TemplateMatchingException;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;

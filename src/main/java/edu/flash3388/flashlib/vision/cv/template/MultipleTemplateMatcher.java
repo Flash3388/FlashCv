@@ -1,8 +1,6 @@
 package edu.flash3388.flashlib.vision.cv.template;
 
 import edu.flash3388.flashlib.vision.cv.CvProcessing;
-import edu.flash3388.flashlib.vision.cv.template.exceptions.NoTemplateMatchException;
-import edu.flash3388.flashlib.vision.cv.template.exceptions.TemplateMatchingException;
 import org.opencv.core.Mat;
 
 import java.util.ArrayList;
