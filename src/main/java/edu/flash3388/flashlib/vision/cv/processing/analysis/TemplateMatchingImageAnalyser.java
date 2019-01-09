@@ -7,9 +7,8 @@ import edu.flash3388.flashlib.vision.cv.template.SingleTemplateMatcher;
 import edu.flash3388.flashlib.vision.cv.template.exceptions.TemplateMatchingException;
 import edu.flash3388.flashlib.vision.processing.analysis.Analysis;
 import edu.flash3388.flashlib.vision.processing.analysis.ImageAnalyser;
+import edu.flash3388.flashlib.vision.processing.analysis.exceptions.ImageAnalysingException;
 import org.json.JSONObject;
-
-import java.util.Optional;
 
 public class TemplateMatchingImageAnalyser implements ImageAnalyser<CvImage> {
 
@@ -26,12 +25,12 @@ public class TemplateMatchingImageAnalyser implements ImageAnalyser<CvImage> {
     }
 
     @Override
-    public Optional<Analysis> tryAnalyse(CvImage image) {
+    public Analysis analyse(CvImage image) throws ImageAnalysingException {
         try {
             ScaledTemplateMatchingResult templateMatchingResult = mTemplateMatcher.match(image.getMat(), mScaleFactor.getAsDouble());
-            return Optional.of(createAnalysisFromMatchingResult(templateMatchingResult));
+            return createAnalysisFromMatchingResult(templateMatchingResult);
         } catch (TemplateMatchingException e) {
-            return Optional.empty();
+            throw new ImageAnalysingException(e);
         }
     }
 
