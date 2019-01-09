@@ -8,22 +8,23 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.function.Function;
 
-public class MultipleTemplateMatcher implements TemplateMatcher {
+public class MultipleTemplateMatcher implements TemplateMatcher
     // TODO: CONSIDER USING A GLOBAL EXECUTOR INSTEAD OF CREATING ONE EACH RUN
     // TODO: CONSIDER USING A FORK-JOIN POOL TO SEPARATE WORK FROM matchWithScaling TASKS
 
     private final List<Mat> mTemplates;
     private final TemplateMatchingMethod mTemplateMatchingMethod;
     private final CvProcessing mCvProcessing;
+    private final ExecutorService mExecutorService;
 
-    public MultipleTemplateMatcher(List<Mat> templates, TemplateMatchingMethod templateMatchingMethod, CvProcessing cvProcessing) {
+    public MultipleTemplateMatcher(List<Mat> templates, TemplateMatchingMethod templateMatchingMethod, CvProcessing cvProcessing, ExecutorService executorService) {
         mTemplates = templates;
         mTemplateMatchingMethod = templateMatchingMethod;
         mCvProcessing = cvProcessing;
+        mExecutorService = executorService;
     }
 
     @Override
@@ -52,19 +53,17 @@ public class MultipleTemplateMatcher implements TemplateMatcher {
     }
 
     private <T extends TemplateMatchingResult> T runMatchOnTemplates(Function<Mat, Callable<T>> taskFromTemplate) throws InterruptedException, TemplateMatchingException {
-        ExecutorService executorService = Executors.newFixedThreadPool(mTemplates.size());
+        List<Future<T>> futures = new ArrayList<>();
         try {
-            List<Future<T>> futures = new ArrayList<>();
-
             for (Mat template : mTemplates) {
                 Callable<T> task = taskFromTemplate.apply(template);
-                Future<T> future = executorService.submit(task);
+                Future<T> future = mExecutorService.submit(task);
                 futures.add(future);
             }
 
             return getBestMatch(futures);
         } finally {
-            executorService.shutdownNow();
+            cancelRunningFutures(futures);
         }
     }
 
@@ -88,6 +87,14 @@ public class MultipleTemplateMatcher implements TemplateMatcher {
         }
 
         return bestMatch;
+    }
+
+    private <T extends TemplateMatchingResult> void cancelRunningFutures(List<Future<T>> futures) {
+        for (Future<T> future : futures) {
+            if (!future.isDone()) {
+                future.cancel(true);
+            }
+        }
     }
 
     private static class TemplateMatchingTask implements Callable<TemplateMatchingResult> {
