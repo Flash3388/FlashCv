@@ -1,4 +1,4 @@
-package edu.flash3388.flashlib.vision.cv.template;
+package com.flash3388.flashlib.vision.cv.template;
 
 import org.opencv.core.Mat;
 
