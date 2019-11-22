@@ -6,9 +6,12 @@ import com.flash3388.flashlib.vision.cv.template.SingleTemplateMatcher;
 import com.flash3388.flashlib.vision.cv.template.TemplateMatchingException;
 import com.google.gson.JsonObject;
 import com.flash3388.flashlib.vision.cv.template.ScaledTemplateMatchingResult;
-import edu.flash3388.flashlib.vision.processing.analysis.Analysis;
-import edu.flash3388.flashlib.vision.processing.analysis.ImageAnalyser;
-import edu.flash3388.flashlib.vision.processing.analysis.ImageAnalysingException;
+import com.flash3388.flashlib.vision.processing.analysis.Analysis;
+import com.flash3388.flashlib.vision.processing.analysis.ImageAnalyser;
+import com.flash3388.flashlib.vision.processing.analysis.ImageAnalysingException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemplateMatchingImageAnalyser implements ImageAnalyser<CvImage> {
 
@@ -35,12 +38,12 @@ public class TemplateMatchingImageAnalyser implements ImageAnalyser<CvImage> {
     }
 
     private Analysis createAnalysisFromMatchingResult(ScaledTemplateMatchingResult templateMatchingResult) {
-        JsonObject root = new JsonObject();
-        root.addProperty("centerX", templateMatchingResult.getCenterPoint().x);
-        root.addProperty("centerY", templateMatchingResult.getCenterPoint().y);
-        root.addProperty("matchingScore", templateMatchingResult.getScore());
-        root.addProperty("scaleFactor", templateMatchingResult.getScaleFactor());
+        Map<String, Object> data = new HashMap<>();
+        data.put("centerX", templateMatchingResult.getCenterPoint().x);
+        data.put("centerY", templateMatchingResult.getCenterPoint().y);
+        data.put("matchingScore", templateMatchingResult.getScore());
+        data.put("scaleFactor", templateMatchingResult.getScaleFactor());
 
-        return new Analysis(root);
+        return new Analysis(data);
     }
 }

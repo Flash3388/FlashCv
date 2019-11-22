@@ -4,50 +4,54 @@ plugins {
     id 'signing'
 }
 
+apply from: rootProject.file('extras.gradle')
+
 group = GROUP
 version = VERSION
 
-def isReleaseBuild() {
-    return version.contains("SNAPSHOT") == false
-}
-
-sourceCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile group: 'com.flash3388,util', name: 'javabeans', version: '1.0'
-
-    compile group: 'edu.flash3388.flashlib', name: 'flashlib', version: '1.3'
+    compile group: 'com.flash3388.flashlib', name: 'flashlib', version: '2.0.0-beta.7'
 
     compile group: 'org.openpnp', name: 'opencv', version: '3.2.0-0'
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
 }
 
 jar {
-    baseName 'flashlib-cv'
+    archiveBaseName.set(project.name)
 }
 
 task createSources(type: Jar, dependsOn: 'classes') {
     from sourceSets.main.allSource
-    baseName 'flashlib-cv'
-    classifier = 'sources'
+
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('sources')
 }
 
 task createJavadoc(type: Jar, dependsOn: 'javadoc') {
     from javadoc.destinationDir
-    baseName 'flashlib-cv'
-    classifier = 'javadoc'
+
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('javadoc')
 }
 
-artifacts {
-    archives createSources
-    archives createJavadoc
+task flashlibCvAll(type: Jar, dependsOn: build) {
+    dependsOn createSources
+    dependsOn createJavadoc
+
+    archiveFileName.set('flashlib-cv-all.jar')
+    destinationDirectory.set(rootProject.buildDir)
+
+    from sourceSets.main.output
+    from sourceSets.main.allSource
+    from javadoc.destinationDir
 }
 
 publishing {
@@ -98,13 +102,15 @@ publishing {
             }
 
             credentials {
-                username ''
-                password ''
+                username getNexusUsername()
+                password getNexusPassword()
             }
         }
     }
 }
 
-signing {
-    sign publishing.publications.mavenFlashlib
+if (shouldSign()) {
+    signing {
+        sign publishing.publications.mavenFlashlib
+    }
 }

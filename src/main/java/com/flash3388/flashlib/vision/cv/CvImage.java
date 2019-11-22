@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.vision.cv;
 
-import edu.flash3388.flashlib.vision.Image;
+import com.flash3388.flashlib.vision.Image;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfInt;
