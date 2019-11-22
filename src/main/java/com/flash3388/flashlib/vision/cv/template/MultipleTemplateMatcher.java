@@ -4,7 +4,7 @@ import com.flash3388.flashlib.vision.cv.CvProcessing;
 import org.opencv.core.Mat;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -14,12 +14,12 @@ import java.util.function.Function;
 public class MultipleTemplateMatcher implements TemplateMatcher {
     // TODO: CONSIDER USING A FORK-JOIN POOL TO SEPARATE WORK FROM matchWithScaling TASKS
 
-    private final List<Mat> mTemplates;
+    private final Collection<Mat> mTemplates;
     private final TemplateMatchingMethod mTemplateMatchingMethod;
     private final CvProcessing mCvProcessing;
     private final ExecutorService mExecutorService;
 
-    public MultipleTemplateMatcher(List<Mat> templates, TemplateMatchingMethod templateMatchingMethod, CvProcessing cvProcessing, ExecutorService executorService) {
+    public MultipleTemplateMatcher(Collection<Mat> templates, TemplateMatchingMethod templateMatchingMethod, CvProcessing cvProcessing, ExecutorService executorService) {
         mTemplates = templates;
         mTemplateMatchingMethod = templateMatchingMethod;
         mCvProcessing = cvProcessing;
@@ -52,7 +52,7 @@ public class MultipleTemplateMatcher implements TemplateMatcher {
     }
 
     private <T extends TemplateMatchingResult> T runMatchOnTemplates(Function<Mat, Callable<T>> taskFromTemplate) throws InterruptedException, TemplateMatchingException {
-        List<Future<T>> futures = new ArrayList<>();
+        Collection<Future<T>> futures = new ArrayList<>();
         try {
             for (Mat template : mTemplates) {
                 Callable<T> task = taskFromTemplate.apply(template);
@@ -66,7 +66,7 @@ public class MultipleTemplateMatcher implements TemplateMatcher {
         }
     }
 
-    private <T extends TemplateMatchingResult> T getBestMatch(List<Future<T>> futures) throws InterruptedException, TemplateMatchingException {
+    private <T extends TemplateMatchingResult> T getBestMatch(Collection<Future<T>> futures) throws InterruptedException, TemplateMatchingException {
         T bestMatch = null;
 
         for (Future<T> future : futures) {
@@ -88,7 +88,7 @@ public class MultipleTemplateMatcher implements TemplateMatcher {
         return bestMatch;
     }
 
-    private <T extends TemplateMatchingResult> void cancelRunningFutures(List<Future<T>> futures) {
+    private <T extends TemplateMatchingResult> void cancelRunningFutures(Collection<Future<T>> futures) {
         for (Future<T> future : futures) {
             if (!future.isDone()) {
                 future.cancel(true);

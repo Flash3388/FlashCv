@@ -46,4 +46,9 @@ public class CvCamera implements Camera<CvImage> {
 
         return new CvImage(mat);
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        mVideoCapture.release();
+    }
 }

@@ -1,6 +1,7 @@
 package com.flash3388.flashlib.vision.cv.processing.color;
 
 import com.beans.Property;
+import com.beans.properties.atomic.AtomicProperty;
 import com.flash3388.flashlib.vision.cv.CvImage;
 import com.flash3388.flashlib.vision.cv.CvImageProcessor;
 import com.flash3388.flashlib.vision.cv.CvProcessing;
@@ -19,6 +20,14 @@ public class HsvRangeProcessor implements CvImageProcessor {
         mSaturationRange = saturationRange;
         mValueRange = valueRange;
         mCvProcessing = cvProcessing;
+    }
+
+    public HsvRangeProcessor(Property<Range> hueRange, Property<Range> saturationRange, Property<Range> valueRange) {
+        this(hueRange, saturationRange, valueRange, new CvProcessing());
+    }
+
+    public HsvRangeProcessor(Range hueRange, Range saturationRange, Range valueRange) {
+        this(new AtomicProperty<>(hueRange), new AtomicProperty<>(saturationRange), new AtomicProperty<>(valueRange));
     }
 
     public Property<Range> hueRangeProperty() {

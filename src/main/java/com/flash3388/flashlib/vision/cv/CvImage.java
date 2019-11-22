@@ -47,4 +47,9 @@ public class CvImage implements Image {
             compressParams.release();
         }
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        mMat.release();
+    }
 }

@@ -1,6 +1,7 @@
 package com.flash3388.flashlib.vision.cv.processing.analysis;
 
 import com.beans.DoubleProperty;
+import com.beans.properties.atomic.AtomicDoubleProperty;
 import com.flash3388.flashlib.vision.cv.CvImage;
 import com.flash3388.flashlib.vision.cv.template.SingleTemplateMatcher;
 import com.flash3388.flashlib.vision.cv.template.TemplateMatchingException;
@@ -21,6 +22,10 @@ public class TemplateMatchingImageAnalyser implements ImageAnalyser<CvImage> {
     public TemplateMatchingImageAnalyser(SingleTemplateMatcher templateMatcher, DoubleProperty scaleFactor) {
         mTemplateMatcher = templateMatcher;
         mScaleFactor = scaleFactor;
+    }
+
+    public TemplateMatchingImageAnalyser(SingleTemplateMatcher templateMatcher, double scaleFactor) {
+        this(templateMatcher, new AtomicDoubleProperty(scaleFactor));
     }
 
     public DoubleProperty scaleFactorProperty() {
