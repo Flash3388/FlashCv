@@ -1,6 +1,6 @@
-package edu.flash3388.flashlib.vision.cv.template;
+package com.flash3388.flashlib.vision.cv.template;
 
-import edu.flash3388.flashlib.vision.cv.CvProcessing;
+import com.flash3388.flashlib.vision.cv.CvProcessing;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -32,7 +32,7 @@ public class SingleTemplateMatcher implements TemplateMatcher {
     }
 
     @Override
-    public ScaledTemplateMatchingResult match(Mat scene, double initialScaleFactor) throws TemplateMatchingException {
+    public ScaledTemplateMatchingResult matchWithScaling(Mat scene, double initialScaleFactor) throws TemplateMatchingException {
         int templateWidth = mTemplate.width();
         int templateHeight = mTemplate.height();
 

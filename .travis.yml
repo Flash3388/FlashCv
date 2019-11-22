@@ -1,0 +1,50 @@
+language: java
+jdk:
+- openjdk8
+- openjdk11
+
+env:
+  global:
+  - secure: HOqSKEsCZHQ3HJ23Z/1HPtRJC/n1TnR1VWD3agKDNu6tkiD96Enr1Y/syoyepbN0MWl2F/5H9t/X4ihPS3LO30InaVPT/yQ+GZFcPF46kMX+yKMFFFQ65372wGk2q8cJVXuMfWwhVaLVHgzr2DGX78TCYfz+RAmsfzHZRU6N87OGdCXuG/or8cTPDf5coyg2K9hKckIaZFMXFkXLn8HHt1uv3/mZTKO9ZAJsNafnsq7oA5b0yQukfMWD+Uq9JR88djSav9QCqIPSpPCONcKBDcviFtwauIvHZy7FTBNe+fRi2zOnj51JvIS2Cr7dQC6GD3EAUcPYjYp1c7paLytjFpBWo9NibH81PlmfvrFfhjoC9I1CltB/REMqndYCT13sngrN9zdCMRVjArqq1rSj+vEu13u28oa3IIfpHsbgUB68iiWozyLdsJnmvep9LeIcpdan9/BDY/1iEpyqOoEktTVAvAcOlnXEntmqgFeB753msZ4F+HmOX8LaCQBL5l4WfbP/ld5G63bJrwIwXLyS79Jpo0WKxmDCbC/bxsKf4P7XdjiMCShvEIhSWa+zY2QP5RWBO5QwoCsgBEs2Z+a5ULDJLANFP/y0lHp8WpufswMQiP2KxsXbgt01Jqa30SwjMTXtJv1OGvROpLS28/Nc5j8zH+am8TeAFZ4UcPdKjAg=
+  - secure: oqwMBLHgd44Cr90IaNcJu79HZnsBJTFZlMJxM693toP8Mg1McfTe7EFU9imwgeegq+TXBMfi4H6v9byeyzj8a7HkdSp/YUXEzKGSiPRN9N/OxWUobpnRCPUrpYUXNs3hKZSHNSaYJwwndyiY7eyS+H+dE91wt+UvzQvl1SyYvRq3uAjUtQeND0VVqUxw47pMayRxI0IL0hnuCrNNm7L2K2DIULJbP6lpGHunNbJGL7O6ASy1oPyNPOfj9s1R3ZJ+HDIi7JUdG14XRObzXJFUQx5COZLKmKs4hmekXDmzCtpk0P9Odz+PNPgArU1FTbVK1rXp/y0H6TRndNRGQFNwrcUiBL91G6VY7BhJgOaP/pr/V3Q9OXfnybmuKJ0L3YUdX5ivqHRMT8ezUwUA0WjH4GcqFt6QVJkBZjk+GOQOLQfnSQ3q6mGLwTge7mfyifn/RRXIUVETeISwlwWPfImd8fL9wcZSBQriCAwBIUxguI/KmhD6mQ9agO/eKyjejlQOhaHnjgJRPg5wNmFHW37fOiwfQfdsR9ouYIF2wY89zJvA00yLpk6hcoTniyo9HnnDQzYxQegrTkxsoAs9Smc9J2D6GCijbdC7hh6/HWIMDIqUqiIgpCWRPJPcrcqfIBRBmddcca8lB0RXbzB50umngkJYp5yokhAmq7NV7iVRw/0=
+  - secure: KmPpVVzv43sH3uU3T+I0oua3O62ZAK1JCQqqtiChHuttfauYCvA5+X04CPQfXEEieJ/MY5zhfGQ2DC8cQVRbSB8VHXrTzfgt3uRHqmI3Papc/yE3nC9oHLxGW8TjAWA8jmhvXglvdjK4vOLO68Gx42/hZblCu9qm7YgW24i7e6BpSHqhmut6Ldvp06GVJhILqQQoukkgVUu1PuL/MO7zWILIG/KIU14WTpPyD2gjSTWVBcYnt85BFyzvT87PuKDYXy2yGJijl6X9t3XysjelHx0QhEAAT/5n/PtAx9ZIfQgcqsKQH1L4kc/jKLP9iqkmn8oyXC6+mcUwlpM84/caZ3l+pA6i5LTNMGjeZWJR7Ub3ivm2pNRwOvObztRgyMC83axnfXVk8h2WV3SOeAKKKrcVMZ4KJMsrGC947hc7K6xr8qyeIQyh1GAAQxPjh4igy/CeMi22P+V78PQhUowhrqmhUsCmTbV+kThalLvmKPUjVGkmB6WJ9I+srqBg1MhIWmep+FB9Jykl9Sy+NnOKAUb8KC/mWWNtt9JHNSdQmoIp1OLplTjTk2HPzOvt8HMNJ8+SVDlfiR07RdfyjjsSdw9CLZ8tBkpE7yZm6GuqObUcoIA1KdhUXMqFuISvLSzFmDcY8krH89rCmAuFVE+DZpXYDSsnpcVH+mk1ocEs60s=
+  - secure: PfK5f3LvCJ1KpvtCX6aU9QboEEMMidMQ82G364WDX8UqBwkQGnaavOjMHvyPip2v/uIO5pg3QMlN+S68uL18Vig7IkJeqrpCuqJuFIxl2DISSecHXJrfL+7E9iWEVpkTALgZy1lBWs0FvFfii5V8s5bCHmYOnXBr/V+AOrhLBFwSGY8mhT/SlAT9EHSk0EUsUME5GXFOWC2iPsHI/bAEuHdSMJZWVGfvpx09GDcft5qKfNiQrgtsPvoL+qTJ+9x91qtOvq7bmh1nPOkMBhxBfsOi8ftKoOUA5hwI982C2p1QiDA+D/4skaLmd/i/j690Gk8C8LrMkS/PSu/cY8u6glWAWmxN1kq1Pj65jeQI8c/xmWh9+sFzdXR/0UYhJW8aYFwpgfZlPpR7RKWqbZ05D91o5ko6OmLXqyY83ksUBHQrY4hdQYOrNYTzwuejIBLAHYQnrLVyylsoBhk8JxW3yeTemOzRcRhROA9XzacgQ1w2ZSpk7lZerK8YhVP0tPdGPQINhY3BPaOCGGf1XrCecSSugLDR2zex2l6zjn+JpvarrUPyf2ayA1MKAwzrkpVMnfC/wRHRsxANsps87uFiFkuon1r6/tPUEHQlTOVwCJbhgqyPfULC5M3RMxDTT3n7tUVOcdhNMOZcNQZd0KIuR2cN6utiOLtuR21twIJKzag=
+
+before_install:
+- openssl aes-256-cbc -K $encrypted_af05dc8a372c_key -iv $encrypted_af05dc8a372c_iv
+  -in secring.gpg.enc -out secring.gpg -d
+
+install:
+- "./gradlew clean"
+- "./gradlew assemble"
+- "./gradlew flashlibCvAll"
+
+script:
+- "./gradlew check"
+
+before_deploy:
+- git config --local user.name "Travis CI"
+- git config --local user.name "build@travis-ci.com"
+
+deploy:
+- provider: script
+  script: "./gradlew publish -PSIGN_PUBLISH=true -Psigning.keyId=${GPG_KEY_ID} -Psigning.password=${GPG_KEY_PASSPHRASE}
+    -Psigning.secretKeyRingFile=secring.gpg"
+  skip_cleanup: true
+  on:
+    condition: "$TRAVIS_TAG =~ ^v[0-9]+\\.[0-9]+\\.[0-9]+(-.*)?"
+    branch: master
+    tags: true
+- provider: releases
+  api_key:
+    secure: HnwD0799DBGPcea7aNZdFSE4AOBW+cchA7iqgUEVrG/rPp2TrJ6snLMVQ1ivEjHTAaFHz1EnB4w55gbpk2kaMkJqhj9Kk+6SW8NlH8onnl+GDftObStaRKVYJ8Kl+jr9iZo1l0rgLtlWvkcMK/w++RlQrqTXhg6HrfzcRHWg2e3hbK/11Plc4T167h6ncQiwGVr5tAjj9S8tUtLk+1jHVScIPmKLSk+1Bkk5FSHiWICN9/jNrRRbiJhhr0FifFRsgeeLRfB6ArnYCv7HsEnvA4h6+AfhGXjsbFXAD3aYQfc+UY6ym+dEQyzoQ7ochG2FK2UIF4oEkzRsLHK3Gj4cili8D537IYQV66jN/6dttgvYFrr1stdHle+iFgrsbfnfRx/cMt04txDGAPLUnLizd4m+VMfJ5wqFtcuiu75Z/LNh8TJUMeEsqKrWmwcDMTRP4+/R73pgz9nCHghn32zLIpve2rofMNLzPqiIhIsIt5a/gBP3rNGOyArRkv0cG+Jk9sOoZ9WdZgYkNajtkE05qmVY6veB7O3HkmgD8YBw5obsuyR5nDFq9N6q1U20R7fgPUbxma0fFASwdgVNCeRK9ExUTyVYFuuva2vvmuRmmPJGTVNM1aIlRPO+xp7wNHu9I8zTi4r3JAbhMavV0FQpfdDgrz6qpY0tTASqamJQaRE=
+  file:
+  - build/flashlib-cv-all.jar
+  - README.md
+  skip_cleanup: true
+  draft: true
+  on:
+    condition: "$TRAVIS_TAG =~ ^v[0-9]+\\.[0-9]+\\.[0-9]+(-.*)?"
+    repo: Flash3388/FlashCv
+    branch: master
+    tags: true

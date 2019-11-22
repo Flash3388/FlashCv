@@ -1,48 +1,116 @@
 plugins {
     id 'java'
+    id 'maven-publish'
+    id 'signing'
 }
 
-group 'edu.flash3388.flashlib'
-version '1.0'
+apply from: rootProject.file('extras.gradle')
 
-sourceCompatibility = 1.8
+group = GROUP
+version = VERSION
+
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
-
-    flatDir {
-        dirs 'libs'
-    }
 }
 
 dependencies {
-    compile name: 'flashvision-1.3'
-    compile name: 'javabeans-1.0'
+    compile group: 'com.flash3388.flashlib', name: 'flashlib', version: '2.0.0-beta.7'
 
     compile group: 'org.openpnp', name: 'opencv', version: '3.2.0-0'
-    compile group: 'org.json', name: 'json', version: '20180813'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
 }
 
 jar {
-    baseName 'flashlib-cv'
+    archiveBaseName.set(project.name)
 }
 
 task createSources(type: Jar, dependsOn: 'classes') {
     from sourceSets.main.allSource
-    baseName 'flashlib-cv'
-    classifier = 'sources'
+
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('sources')
 }
 
 task createJavadoc(type: Jar, dependsOn: 'javadoc') {
     from javadoc.destinationDir
-    baseName 'flashlib-cv'
-    classifier = 'javadoc'
+
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('javadoc')
 }
 
-artifacts {
-    archives createSources
-    archives createJavadoc
+task flashlibCvAll(type: Jar, dependsOn: build) {
+    dependsOn createSources
+    dependsOn createJavadoc
+
+    archiveFileName.set('flashlib-cv-all.jar')
+    destinationDirectory.set(rootProject.buildDir)
+
+    from sourceSets.main.output
+    from sourceSets.main.allSource
+    from javadoc.destinationDir
+}
+
+publishing {
+    publications {
+        mavenFlashlib(MavenPublication) {
+            from components.java
+
+            artifact createJavadoc
+            artifact createSources
+
+            pom {
+                name = 'FlashCv'
+                description = 'OpenCV Plugin for Flashlib'
+                url = 'https://github.com/Flash3388/FlashCv'
+
+                licenses {
+                    license {
+                        name = 'BSD 3-Clause License'
+                        url = 'https://opensource.org/licenses/BSD-3-Clause'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'tomtzook'
+                        name = 'Tom Tzook'
+                        email = 'tomtzook@gmail.com'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/Flash3388/FlashCv.git'
+                    developerConnection = 'scm:git:ssh://github.com/Flash3388/FlashCv.git'
+                    url = 'https://github.com/Flash3388/FlashCv'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            if (isReleaseBuild()) {
+                name = 'NexusStaging'
+                url = NEXUS_RELEASE_REPOSITORY_URL
+            } else {
+                name = 'NexusSnapshot'
+                url = NEXUS_SNAPSHOT_REPOSITORY_URL
+            }
+
+            credentials {
+                username getNexusUsername()
+                password getNexusPassword()
+            }
+        }
+    }
+}
+
+if (shouldSign()) {
+    signing {
+        sign publishing.publications.mavenFlashlib
+    }
 }

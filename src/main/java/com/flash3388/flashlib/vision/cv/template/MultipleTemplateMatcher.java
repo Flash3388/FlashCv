@@ -1,27 +1,29 @@
-package edu.flash3388.flashlib.vision.cv.template;
+package com.flash3388.flashlib.vision.cv.template;
 
-import edu.flash3388.flashlib.vision.cv.CvProcessing;
+import com.flash3388.flashlib.vision.cv.CvProcessing;
 import org.opencv.core.Mat;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.function.Function;
 
 public class MultipleTemplateMatcher implements TemplateMatcher {
+    // TODO: CONSIDER USING A FORK-JOIN POOL TO SEPARATE WORK FROM matchWithScaling TASKS
 
-    private final List<Mat> mTemplates;
+    private final Collection<Mat> mTemplates;
     private final TemplateMatchingMethod mTemplateMatchingMethod;
     private final CvProcessing mCvProcessing;
+    private final ExecutorService mExecutorService;
 
-    public MultipleTemplateMatcher(List<Mat> templates, TemplateMatchingMethod templateMatchingMethod, CvProcessing cvProcessing) {
+    public MultipleTemplateMatcher(Collection<Mat> templates, TemplateMatchingMethod templateMatchingMethod, CvProcessing cvProcessing, ExecutorService executorService) {
         mTemplates = templates;
         mTemplateMatchingMethod = templateMatchingMethod;
         mCvProcessing = cvProcessing;
+        mExecutorService = executorService;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class MultipleTemplateMatcher implements TemplateMatcher {
     }
 
     @Override
-    public ScaledTemplateMatchingResult match(Mat scene, double initialScaleFactor) throws TemplateMatchingException {
+    public ScaledTemplateMatchingResult matchWithScaling(Mat scene, double initialScaleFactor) throws TemplateMatchingException {
         try {
             return runMatchOnTemplates((template) ->
                     new ScaledTemplateMatchingTask(
@@ -50,23 +52,21 @@ public class MultipleTemplateMatcher implements TemplateMatcher {
     }
 
     private <T extends TemplateMatchingResult> T runMatchOnTemplates(Function<Mat, Callable<T>> taskFromTemplate) throws InterruptedException, TemplateMatchingException {
-        ExecutorService executorService = Executors.newFixedThreadPool(mTemplates.size());
+        Collection<Future<T>> futures = new ArrayList<>();
         try {
-            List<Future<T>> futures = new ArrayList<>();
-
             for (Mat template : mTemplates) {
                 Callable<T> task = taskFromTemplate.apply(template);
-                Future<T> future = executorService.submit(task);
+                Future<T> future = mExecutorService.submit(task);
                 futures.add(future);
             }
 
             return getBestMatch(futures);
         } finally {
-            executorService.shutdownNow();
+            cancelRunningFutures(futures);
         }
     }
 
-    private <T extends TemplateMatchingResult> T getBestMatch(List<Future<T>> futures) throws InterruptedException, TemplateMatchingException {
+    private <T extends TemplateMatchingResult> T getBestMatch(Collection<Future<T>> futures) throws InterruptedException, TemplateMatchingException {
         T bestMatch = null;
 
         for (Future<T> future : futures) {
@@ -86,6 +86,14 @@ public class MultipleTemplateMatcher implements TemplateMatcher {
         }
 
         return bestMatch;
+    }
+
+    private <T extends TemplateMatchingResult> void cancelRunningFutures(Collection<Future<T>> futures) {
+        for (Future<T> future : futures) {
+            if (!future.isDone()) {
+                future.cancel(true);
+            }
+        }
     }
 
     private static class TemplateMatchingTask implements Callable<TemplateMatchingResult> {
@@ -118,7 +126,7 @@ public class MultipleTemplateMatcher implements TemplateMatcher {
 
         @Override
         public ScaledTemplateMatchingResult call() throws Exception {
-            return mTemplateMatcher.match(mScene, mInitialScaleFactor);
+            return mTemplateMatcher.matchWithScaling(mScene, mInitialScaleFactor);
         }
     }
 }

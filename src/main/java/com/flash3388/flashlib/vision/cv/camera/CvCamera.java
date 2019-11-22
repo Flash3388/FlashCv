@@ -1,8 +1,8 @@
-package edu.flash3388.flashlib.vision.cv.camera;
+package com.flash3388.flashlib.vision.cv.camera;
 
-import edu.flash3388.flashlib.vision.camera.Camera;
-import edu.flash3388.flashlib.vision.cv.CvImage;
-import edu.flash3388.flashlib.vision.VisionException;
+import com.flash3388.flashlib.vision.cv.CvImage;
+import com.flash3388.flashlib.vision.camera.Camera;
+import com.flash3388.flashlib.vision.VisionException;
 
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
@@ -45,5 +45,10 @@ public class CvCamera implements Camera<CvImage> {
         }
 
         return new CvImage(mat);
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        mVideoCapture.release();
     }
 }
