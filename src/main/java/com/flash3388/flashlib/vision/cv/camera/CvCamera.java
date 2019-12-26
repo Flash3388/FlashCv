@@ -49,6 +49,11 @@ public class CvCamera implements Camera<CvImage> {
 
     @Override
     protected void finalize() throws Throwable {
+        close();
+    }
+
+    @Override
+    public void close() throws Exception {
         mVideoCapture.release();
     }
 }
